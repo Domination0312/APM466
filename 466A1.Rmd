@@ -1,0 +1,245 @@
+---
+title: "APM466A1"
+author: "Yushi zhou"
+date: "2024-01-30"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(quantmod)
+library(jrvFinance)
+library(ggplot2)
+
+
+```
+
+
+```{r}
+
+
+
+```
+
+
+```{r}
+#Import the data of the ten bonds that I choose
+price = output_file
+price$coupon_rate <- selected_bonds$Coupon
+ytm <- matrix(nrow = 10,ncol = 10)
+colnames(ytm)<-c("2024/1/8", "2024/1/9","2024/1/10","2024/1/11","2024/1/12",
+                  "2024/1/15","2024/1/16","2024/1/17","2024/1/18","2024/1/19")
+```
+
+
+```{r}
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/8`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_08=bond.yield("2024/1/8", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,1] =  ytm_08
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/9`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_09=bond.yield("2024/1/9", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,2] =  ytm_09
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/10`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_10=bond.yield("2024/1/10", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,3] =  ytm_10
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/11`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_11=bond.yield("2024/1/11", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,4] =  ytm_11
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/12`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_12=bond.yield("2024/1/12", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,5] =  ytm_12
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/15`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_15=bond.yield("2024/1/15", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,6] =  ytm_15
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/16`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_16=bond.yield("2024/1/16", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,7] =  ytm_16
+}
+
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/17`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_17=bond.yield("2024/1/17", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,8] =  ytm_17
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/18`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_18=bond.yield("2024/1/18", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,9] =  ytm_18
+}
+
+for (i in 1:10) {
+  coupon_rate = price$coupon_rate[i]
+  bond_value = price$`2024/1/19`[i]
+  maturity_date = price$`Maturity Date`[i]
+  ytm_19=bond.yield("2024/1/19", maturity_date, coupon = coupon_rate , freq = 2, bond_value, comp.freq = 2, redemption_value = 100)
+  ytm[i,10] =  ytm_19
+}
+view(ytm)
+```
+
+
+```{r}
+
+a <- seq(0.5, 5, 0.5)
+colors <- 1:10  
+
+plot(a, ytm[, 1], type = "l", col = colors[1], xlab = "Time to Maturity (Years)", 
+     ylab = "Yield to Maturity", main = "5-Year Yield Curve for 10 Bonds of 10 Days")
+
+for (i in 2:10) {
+  lines(a, ytm[, i], col = colors[i+1])
+}
+
+
+legend("topright", legend = c("2024-01-08", "2024-01-09", "2024-01-10", "2024-01-11", "2024-01-12",
+                               "2024-01-15", "2024-01-16", "2024-01-17", "2024-01-18", "2024-01-19"),
+       lty = rep(3, 10), lwd = rep(3, 10), cex = 0.75, col = colors)
+
+```
+
+```{r}
+coupon <- price$coupon_rate * 0.5
+bond_value <- data.frame(price[,c(5:14)])
+spot <-matrix(ncol = 10, nrow = 11)
+for (i in 1:10) {
+  sp <- c()
+  Price <- bond_value[i]
+  for (j in 3:11) {
+    if (j == 3){
+      r_1 <- ((100*coupon[j] + 100) / Price[j,]) - 1
+      sp[j] = r_1
+    }
+    else {
+      cpn <- 0
+      for (k in 3:(j-1)) {
+        cpn <- cpn + (100 * coupon[j]) / ((1 + sp[k])^(k))
+      }
+      r_t <- ((100*coupon[j] + 100)/(Price[j,]-cpn))^(2/(j)) - 1
+      sp[j] <- r_t
+    }
+  }
+  spot[,i] <- sp
+}
+spot
+```
+
+```{r}
+
+t <- seq(1,5,0.5)
+subset <- spot[-c(1:2), ]
+plot(t,subset[,1],type="l", col = colors[1], xlab="Time to Maturity (Years)",ylab="Spot rate", main =" 5-Year Spot Curve of 10 Days")
+for (i in 2:10) {
+  lines(t, subset[,i], col = colors[i])
+}
+legend("topright",legend = c("2024-01-08", "2024-01-09","2024-01-10","2024-01-11","2024-01-12","2024-01-15","2024-01-16","2024-01-17","2024-01-18","2024-01-19"), lty=c(1,1), lwd=c(2,2),cex=0.6, col = colors[1:10])
+```
+
+```{r}
+forward <- matrix(ncol = 10, nrow = 4)
+subspot <- spot[c(3, 5, 7, 9), ]
+for (i in 1:10) {
+  fr <- c()
+  sub <- subspot[, i]
+  base = (1 + sub[1])^2
+  for (j in 1:4) {
+      f_1 = ((1 + sub[j])^(2 + j) / base)^(1 / j) - 1
+      fr[j] = f_1
+  }
+  forward[,i] <- fr}
+  forward
+```
+
+
+```{r}
+t <- seq(1,4,1)
+plot(t, forward[,1],type="l", col = colors[1],ylab="Forward Rate", main =" 5-Year Forward of 10 Days")
+for (i in 2:9) {
+  lines(t, forward[,i], col = colors[i])
+}
+legend("topright",legend = c("2024-01-08", "2024-01-09","2024-01-10","2024-01-11","2024-01-12","2024-01-15","2024-01-16","2024-01-17","2024-01-18","2024-01-19"), lty=c(1,1), lwd=c(2,2),cex=0.55, col = colors[1:10])
+```
+
+```{r}
+yield <- matrix(ncol = 9, nrow = 5)
+for (i in 1:9){
+  yield[1,i]<-log(ytm[2,i+1]/ytm[2,i])
+  yield[2,i]<-log(ytm[4,i+1]/ytm[4,i])
+  yield[3,i]<-log(ytm[6,i+1]/ytm[6,i])
+  yield[4,i]<-log(ytm[8,i+1]/ytm[8,i])
+  yield[5,i]<-log(ytm[10,i+1]/ytm[10,i])
+}
+yield <- t(yield)
+
+covyield = cov(yield)
+covyield
+knitr::kable(covyield)
+
+```
+
+```{r}
+forw <- matrix(ncol = 9, nrow = 4)
+for (i in 1:9){
+  forw[1,i]<-log(fr[1,i+1]/fr[1,i])
+  forw[2,i]<-log(fr[2,i+1]/fr[2,i])
+  forw[3,i]<-log(fr[3,i+1]/fr[3,i])
+  forw[4,i]<-log(fr[4,i+1]/fr[4,i])
+}
+forw <- t(forw)
+
+covforw = cov(forw)
+covforw
+knitr::kable(covforw)
+```
+
+```{r}
+y <- eigen(covyield)
+y$values
+y$vectors
+```
+
+
+```{r}
+f <- eigen(covforw)
+f$values
+f$vectors
+```
+
